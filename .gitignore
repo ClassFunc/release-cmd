@@ -21,5 +21,7 @@ yarn-error.log*
 # Git idea
 /.idea
 .eslintcache
+
+#release files
 release_github.md
 /release_month_report/**
