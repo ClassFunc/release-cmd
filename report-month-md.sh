@@ -11,26 +11,36 @@ echo "since date ($SINCE): \c" #default current branch
 read -r since_date
 [ -n "$since_date" ] && SINCE=$since_date
 
-TO_TAG=$(git branch --show-current)
-echo "to tag or branch ($TO_TAG): \c" #default current branch
-read -r to_tag
-[ -n "$to_tag" ] && TO_TAG=$to_tag
+UNTIL=$(date "+%F") #today
+echo "until date ($UNTIL): \c"
+read -r until_date
+[ -n "$until_date" ] && UNTIL=$until_date
 
-FILE=release_month_report/"$SINCE.md"
+ON_TAG=$(git branch --show-current)
+echo "of tag or branch ($ON_TAG): \c" #default current branch
+read -r on_tag
+[ -n "$on_tag" ] && ON_TAG=$on_tag
 
-echo -e "Cảm ơn tất cả vì sự nỗ lực của mọi người,
+DIR=release_month_report
+FILE=$DIR/"$SINCE-to-$UNTIL-all.md"
 
-Chúng ta đã có những update rất tuyệt vời từ $SINCE trong $TO_TAG
-
----" > "$FILE"
+if [[ ! -e $FILE ]]; then
+  mkdir -p $DIR
+  touch "$FILE"
+fi
 
 echo -e "
+Pull Request from $SINCE to $UNTIL on \`$ON_TAG\`
+
+---
+
 | PR      | Title   | By | Date     |
-| :---    | :---   | :--- | :--- |" >> "$FILE"
+| :---    | :---   | :--- | :--- |" > "$FILE"
 
 LOG=$(git log --merges\
-  "$TO_TAG"\
+  "$ON_TAG"\
  --since="$SINCE"\
+ --until="$UNTIL"\
  --grep='Merge pull request'\
  --pretty=format:"%s __end_subject__   | %b | %an | %cs |"
  )

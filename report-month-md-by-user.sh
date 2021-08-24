@@ -15,10 +15,10 @@ echo "until date ($UNTIL): \c"
 read -r until_date
 [ -n "$until_date" ] && UNTIL=$until_date
 
-OF_TAG=$(git branch --show-current)
-echo "on tag or branch ($OF_TAG): \c" #default current branch
-read -r to_tag
-[ -n "$to_tag" ] && OF_TAG=$to_tag
+ON=$(git branch --show-current)
+echo "on tag or branch ($ON): \c" #default current branch
+read -r on
+[ -n "$on" ] && ON=$on
 
 create_report (){
 
@@ -30,43 +30,42 @@ create_report (){
     touch "$FILE"
   fi
 
-  echo -e "Cảm ơn tất cả vì sự nỗ lực của mọi người,
-
-Chúng ta đã có những update rất tuyệt vời từ $SINCE trong $OF_TAG
-
-  ---" > "$FILE"
-
   echo -e "
-  | PR      | Title   | By | Date     |
-  | :---    | :---   | :--- | :--- |" >> "$FILE"
+
+  ($1) from $SINCE to $UNTIL on \`$ON\`
+
+  ---
+
+  | PR      | Title   | By  | Date     |
+  | :---    | :---   | :--- | :--- |" > "$FILE"
 
   LOG=$(git log --merges\
-    "$OF_TAG"\
+    "$ON"\
    --since="$SINCE"\
    --until="$UNTIL"\
    --grep='Merge pull request'\
    --author="$1" \
-   --pretty=format:"%s __end_subject__   | %b | %an | %cs |"
+   --pretty=format:"%s __end_subject__  | %b | %an | %cs |"
    )
 
   # shellcheck disable=SC2001
-  _RESULT=$( echo "$LOG" \
+  echo "$LOG" \
   | sed "s/Merge pull request/\|/"\
-  | sed "s/from.*__end_subject__//g"
-  )
+  | sed "s/from.*__end_subject__//g"\
+  >> "$FILE"
 
-  echo "$_RESULT" >> "$FILE"
 }
 
 generate_for_all_user(){
-  EMAILS=$(
-  git log --grep "Merge pull request" --format="%ae" \
+  USERS=$(
+  git log --grep "Merge pull request" --format="%an" \
   |sort | uniq
   )
-  while read -r email
+  while read -r user
   do
-    create_report "$email"
-  done <<< "$EMAILS"
+    echo "($user) from $SINCE to $UNTIL on \`$ON\`"
+    create_report "$user"
+  done <<< "$USERS"
 }
 
 generate_for_all_user
