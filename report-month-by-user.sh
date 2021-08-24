@@ -16,7 +16,7 @@ read -r until_date
 [ -n "$until_date" ] && UNTIL=$until_date
 
 OF_TAG=$(git branch --show-current)
-echo "to tag or branch ($OF_TAG): \c" #default current branch
+echo "on tag or branch ($OF_TAG): \c" #default current branch
 read -r to_tag
 [ -n "$to_tag" ] && OF_TAG=$to_tag
 
@@ -32,7 +32,7 @@ create_report (){
 
   echo -e "Cảm ơn tất cả vì sự nỗ lực của mọi người,
 
-  Chúng ta đã có những update rất tuyệt vời từ $SINCE trong $OF_TAG
+Chúng ta đã có những update rất tuyệt vời từ $SINCE trong $OF_TAG
 
   ---" > "$FILE"
 
