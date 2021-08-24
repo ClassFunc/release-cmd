@@ -29,18 +29,18 @@ if [[ ! -e $FILE ]]; then
   touch "$FILE"
 fi
 
-echo -e "PR,Title,By,Date" > "$FILE"
+echo -e "PR;Title;By;Date" > "$FILE"
 
 LOG=$(git log --merges\
   "$ON"\
  --since="$SINCE"\
   --until="$UNTIL"\
  --grep='Merge pull request'\
- --pretty=format:"%s __end_subject__ , %b , %an , %cs"
+ --pretty=format:"%s __end_subject ; %b ; %an ; %cs"
  )
 
 # shellcheck disable=SC2001
 echo "$LOG" \
 | sed "s/Merge pull request//"\
-| sed "s/from.*__end_subject__//g"\
+| sed "s/from.*__end_subject//g"\
 >> "$FILE"
