@@ -35,8 +35,8 @@ git log --merges\
 
 
 ##create draft release
-#NEW_VERSION=v$(date +%F_%H%M)
-#gh release create "$NEW_VERSION"\
-#  -F "$FILE"\
-#  --title "$NEW_VERSION"\
-#  --draft
+NEW_VERSION=v$(date +%F_%H%M)
+gh release create "$NEW_VERSION"\
+  -F "$FILE"\
+  --title "$NEW_VERSION"\
+  --draft
