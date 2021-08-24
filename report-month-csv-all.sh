@@ -5,6 +5,8 @@
 
  # shellcheck disable=SC2046
 # clear
+echo "Report All Member Efforts"
+
 PROJECT_NAME=$(basename $(git rev-parse --show-toplevel))
 
 SINCE=$(date -v1d -v"$(date '+%m')"m '+%F') #first day of month
@@ -45,3 +47,5 @@ echo "$LOG" \
 | sed "s/Merge pull request//"\
 | sed "s/from.*__end_subject//g"\
 >> "$FILE"
+
+echo "created file: $FILE"

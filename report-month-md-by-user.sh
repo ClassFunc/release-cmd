@@ -5,6 +5,8 @@
 
  # shellcheck disable=SC2046
 # clear
+echo "Report Per Member Efforts"
+
 PROJECT_NAME=$(basename $(git rev-parse --show-toplevel))
 
 SINCE=$(date -v1d -v"$(date '+%m')"m '+%F') #first day of month
@@ -55,6 +57,7 @@ create_report (){
   | sed "s/from.*__end_subject__//g"\
   >> "$FILE"
 
+  echo "created file: $FILE"
 }
 
 generate_for_all_user(){
@@ -64,7 +67,7 @@ generate_for_all_user(){
   )
   while read -r user
   do
-    echo "($user) from $SINCE to $UNTIL on \`$ON\`"
+#    echo "($user) from $SINCE to $UNTIL on \`$ON\`"
     create_report "$user"
   done <<< "$USERS"
 }

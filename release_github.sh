@@ -4,6 +4,8 @@
 
  # shellcheck disable=SC2046
 # clear
+echo "Create GitHub draft release"
+
 FROM=$(git describe --tags --abbrev=0)
 echo "from commit hash or tag or branch ($FROM): \c"
 read -r from
@@ -40,3 +42,5 @@ gh release create "$NEW_VERSION"\
   -F "$FILE"\
   --title "$NEW_VERSION"\
   --draft
+
+echo "created file: $FILE"

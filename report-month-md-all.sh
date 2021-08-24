@@ -5,6 +5,8 @@
 
  # shellcheck disable=SC2046
 # clear
+echo "Report All Member Efforts"
+
 PROJECT_NAME=$(basename $(git rev-parse --show-toplevel))
 SINCE=$(date -v1d -v"$(date '+%m')"m '+%F') #first day of month
 echo "since date ($SINCE): \c" #default current branch
@@ -51,4 +53,4 @@ echo "$LOG" \
 | sed "s/from.*__end_subject__//g"\
 >> "$FILE"
 
-echo "exported to '$FILE'"
+echo "created file: $FILE"
