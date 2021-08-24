@@ -16,10 +16,10 @@ echo "until date ($UNTIL): \c"
 read -r until_date
 [ -n "$until_date" ] && UNTIL=$until_date
 
-ON_TAG=$(git branch --show-current)
-echo "on tag or branch ($ON_TAG): \c" #default current branch
-read -r on_tag
-[ -n "$on_tag" ] && ON_TAG=$on_tag
+ON=$(git branch --show-current)
+echo "on tag or branch ($ON): \c" #default current branch
+read -r on
+[ -n "$on" ] && ON=$on
 
 FILE=release_month_report/"$SINCE-$UNTIL-all.csv"
 DIR=release_month_report
@@ -32,7 +32,7 @@ fi
 echo -e "PR,Title,By,Date" > "$FILE"
 
 LOG=$(git log --merges\
-  "$ON_TAG"\
+  "$ON"\
  --since="$SINCE"\
   --until="$UNTIL"\
  --grep='Merge pull request'\

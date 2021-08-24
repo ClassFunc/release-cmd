@@ -15,8 +15,6 @@ echo "to commit hash or tag or branch ($TO): \c"
 read -r to
 [ -n "$to" ] && TO=$to
 
-COMPARE="$FROM...$TO"
-
 FILE=release_github.md
 #echo "$COMPARE"
 echo -e "Updated between $FROM & $TO
@@ -24,9 +22,9 @@ echo -e "Updated between $FROM & $TO
 " > "$FILE"
 
 LOG=$(git log --merges\
- "$COMPARE"\
+ "$FROM...$TO"\
  --grep 'Merge pull request'\
- --pretty=format:"- %b %s __end_subject__ (%an - %cr)
+ --pretty=format:"- %b %s __end_subject__ (%an - %cs)
 
  "
  )

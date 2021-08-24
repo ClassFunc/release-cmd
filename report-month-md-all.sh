@@ -16,10 +16,10 @@ echo "until date ($UNTIL): \c"
 read -r until_date
 [ -n "$until_date" ] && UNTIL=$until_date
 
-ON_TAG=$(git branch --show-current)
-echo "of tag or branch ($ON_TAG): \c" #default current branch
-read -r on_tag
-[ -n "$on_tag" ] && ON_TAG=$on_tag
+ON=$(git branch --show-current)
+echo "on tag or branch ($ON): \c" #default current branch
+read -r on
+[ -n "$on" ] && ON=$on
 
 DIR=release_month_report
 FILE=$DIR/"$SINCE-to-$UNTIL-all.md"
@@ -30,7 +30,7 @@ if [[ ! -e $FILE ]]; then
 fi
 
 echo -e "
-Pull Request from $SINCE to $UNTIL on \`$ON_TAG\`
+Pull Request from $SINCE to $UNTIL on \`$ON\`
 
 ---
 
@@ -38,7 +38,7 @@ Pull Request from $SINCE to $UNTIL on \`$ON_TAG\`
 | :---    | :---   | :--- | :--- |" > "$FILE"
 
 LOG=$(git log --merges\
-  "$ON_TAG"\
+  "$ON"\
  --since="$SINCE"\
  --until="$UNTIL"\
  --grep='Merge pull request'\
@@ -50,3 +50,5 @@ echo "$LOG" \
 | sed "s/Merge pull request/\|/"\
 | sed "s/from.*__end_subject__//g"\
 >> "$FILE"
+
+echo "exported to '$FILE'"
