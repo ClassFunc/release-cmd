@@ -57,7 +57,7 @@ create_report (){
 
 generate_for_all_user(){
   USERS=$(
-  git log --merges --grep "Merge pull request" --format="%ae" \
+  git log --merges --grep "Merge pull request" --format="%an" \
   |sort | uniq
   )
   while read -r user
