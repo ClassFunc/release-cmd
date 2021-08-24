@@ -5,6 +5,7 @@
 
  # shellcheck disable=SC2046
 # clear
+PROJECT_NAME=$(basename $(git rev-parse --show-toplevel))
 
 SINCE=$(date -v1d -v"$(date '+%m')"m '+%F') #first day of month
 echo "since date ($SINCE): \c" #default current branch
@@ -21,7 +22,7 @@ echo "on tag or branch ($ON): \c" #default current branch
 read -r on
 [ -n "$on" ] && ON=$on
 
-FILE=release_month_report/"$SINCE-$UNTIL-all.csv"
+FILE=release_month_report/"$PROJECT_NAME-$SINCE-to-$UNTIL-all.csv"
 DIR=release_month_report
 
 if [[ ! -e $FILE ]]; then

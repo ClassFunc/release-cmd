@@ -5,7 +5,7 @@
 
  # shellcheck disable=SC2046
 # clear
-
+PROJECT_NAME=$(basename $(git rev-parse --show-toplevel))
 SINCE=$(date -v1d -v"$(date '+%m')"m '+%F') #first day of month
 echo "since date ($SINCE): \c" #default current branch
 read -r since_date
@@ -22,7 +22,7 @@ read -r on
 [ -n "$on" ] && ON=$on
 
 DIR=release_month_report
-FILE=$DIR/"$SINCE-to-$UNTIL-all.md"
+FILE=$DIR/"$PROJECT_NAME-$SINCE-to-$UNTIL-on-$ON-all.md"
 
 if [[ ! -e $FILE ]]; then
   mkdir -p $DIR
