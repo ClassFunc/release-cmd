@@ -31,10 +31,9 @@ create_report (){
   fi
 
   echo -e "
+($1) Pull Request merged from $SINCE to $UNTIL on \`$ON\`
 
-  ($1) from $SINCE to $UNTIL on \`$ON\`
-
-  ---
+---
 
   | PR      | Title   | By  | Date     |
   | :---    | :---   | :--- | :--- |" > "$FILE"
@@ -58,7 +57,7 @@ create_report (){
 
 generate_for_all_user(){
   USERS=$(
-  git log --grep "Merge pull request" --format="%an" \
+  git log --merges --grep "Merge pull request" --format="%ae" \
   |sort | uniq
   )
   while read -r user

@@ -30,7 +30,7 @@ if [[ ! -e $FILE ]]; then
 fi
 
 echo -e "
-Pull Request from $SINCE to $UNTIL on \`$ON\`
+Pull Request merged from $SINCE to $UNTIL on \`$ON\`
 
 ---
 

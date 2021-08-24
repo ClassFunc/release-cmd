@@ -17,28 +17,26 @@ read -r to
 
 FILE=release_github.md
 #echo "$COMPARE"
-echo -e "Updated between $FROM & $TO
----
-" > "$FILE"
+echo -e "
+Pull Request merged between $FROM & $TO
 
-LOG=$(git log --merges\
+---
+
+| PR      | Title   | By | Date     |
+| :---    | :---   | :--- | :--- |" > "$FILE"
+
+git log --merges\
  "$FROM...$TO"\
  --grep 'Merge pull request'\
- --pretty=format:"- %b %s __end_subject__ (%an - %cs)
-
- "
- )
-
-# shellcheck disable=SC2001
-echo "$LOG" \
+ --pretty=format:"| %s __end_subject__ | %b | %an | %cs | " \
 | sed "s/Merge pull request//"\
 | sed "s/from.*__end_subject__//g"\
 >> "$FILE"
 
 
 ##create draft release
-NEW_VERSION=v$(date +%F_%H%M)
-gh release create "$NEW_VERSION"\
-  -F "$FILE"\
-  --title "$NEW_VERSION"\
-  --draft
+#NEW_VERSION=v$(date +%F_%H%M)
+#gh release create "$NEW_VERSION"\
+#  -F "$FILE"\
+#  --title "$NEW_VERSION"\
+#  --draft
