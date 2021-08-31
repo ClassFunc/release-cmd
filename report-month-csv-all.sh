@@ -32,20 +32,30 @@ if [[ ! -e $FILE ]]; then
   touch "$FILE"
 fi
 
-echo -e "PR;Title;By;Date" > "$FILE"
+echo -e "PR,Title,By,Date" > "$FILE"
 
-LOG=$(git log --merges\
+git log --merges\
   "$ON"\
  --since="$SINCE"\
   --until="$UNTIL"\
  --grep='Merge pull request'\
- --pretty=format:"%s __end_subject ; %b ; %an ; %cs"
- )
-
-# shellcheck disable=SC2001
-echo "$LOG" \
-| sed "s/Merge pull request//"\
-| sed "s/from.*__end_subject//g"\
+ --pretty=format:"%s __end_subject ;;; %b ;;; %an ;;; %cs" \
+| awk '{
+gsub(/Merge pull request/,"")
+print
+}'\
+| awk '{
+gsub(/from.*__end_subject/,"")
+print
+}'\
+| awk '{
+gsub(",", "")
+print
+}' \
+| awk '{
+gsub(";;;", ",")
+print
+}' \
 >> "$FILE"
 
 echo "created file: $FILE"
