@@ -7,6 +7,10 @@
 # clear
 echo "Report Per Member Efforts"
 
+echo "git fetching..."
+git fetch;
+echo "fetch done."
+
 PROJECT_NAME=$(basename $(git rev-parse --show-toplevel))
 
 SINCE=$(date -v1d -v"$(date '+%m')"m '+%F') #first day of month

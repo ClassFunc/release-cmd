@@ -6,6 +6,10 @@
 # clear
 echo "Create GitHub draft release"
 
+echo "git fetching..."
+git fetch;
+echo "fetch done."
+
 FROM=$(git describe --tags --abbrev=0)
 echo "from commit hash or tag or branch ($FROM): \c"
 read -r from
