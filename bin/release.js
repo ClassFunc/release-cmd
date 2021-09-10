@@ -5,7 +5,8 @@ const {execSync} = require('child_process');
 vorpal.command('github').action(async function(args, cb) {
   // const self = this;
   const file = fpath('/release_github.sh');
-  let from = cmd(`git describe --tags --abbrev=0`);
+  let from = cmd(`git describe --tags --abbrev=0`,
+      `git rev-list --max-parents=0 HEAD`);
   let to = cmd(`git branch --show-current`);
 
   await this.prompt({
@@ -30,129 +31,86 @@ vorpal.command('github').action(async function(args, cb) {
 });
 
 vorpal.command('md').action(async function(args, cb) {
-  // const self = this;
-  let on = cmd(`git branch --show-current`);
-  let since = cmd(`date -v1d -v"$(date '+%m')"m '+%F'`);
-  let until = cmd(`date "+%F"`);
-
-  await this.prompt({
-    type: 'input',
-    name: 'on',
-    default: on,
-    message: 'on tag or branch: ',
-  }, function(result) {
-    // console.log(result);
-    on = result.on;
-  });
-  await this.prompt({
-    type: 'input',
-    name: 'since',
-    default: since,
-    message: 'since date: ',
-  }, function(result) {
-    // console.log(result);
-    since = result.since;
-  });
-  await this.prompt({
-    type: 'input',
-    name: 'until',
-    default: until,
-    message: 'until date: ',
-  }, function(result) {
-    // console.log(result);
-    until = result.until;
-  });
-  const mmdFile = fpath('/report-month-md-all.sh');
-
-  this.log(sh(mmdFile, on, since, until));
+  const file = fpath('/report-month-md-all.sh');
+  return report(args, cb, file, this);
 });
+
 vorpal.command('mdu').action(async function(args, cb) {
-  // const self = this;
-  let on = cmd(`git branch --show-current`);
-  let since = cmd(`date -v1d -v"$(date '+%m')"m '+%F'`);
-  let until = cmd(`date "+%F"`);
-
-  await this.prompt({
-    type: 'input',
-    name: 'on',
-    default: on,
-    message: 'on tag or branch: ',
-  }, function(result) {
-    // console.log(result);
-    on = result.on;
-  });
-  await this.prompt({
-    type: 'input',
-    name: 'since',
-    default: since,
-    message: 'since date: ',
-  }, function(result) {
-    // console.log(result);
-    since = result.since;
-  });
-  await this.prompt({
-    type: 'input',
-    name: 'until',
-    default: until,
-    message: 'until date: ',
-  }, function(result) {
-    // console.log(result);
-    until = result.until;
-  });
   const file = fpath('/report-month-md-by-user.sh');
-
-  this.log(sh(file, on, since, until));
+  return report(args, cb, file, this);
 });
 
 vorpal.command('csv').action(async function(args, cb) {
-  // const self = this;
-  let on = cmd(`git branch --show-current`);
-  let since = cmd(`date -v1d -v"$(date '+%m')"m '+%F'`);
-  let until = cmd(`date "+%F"`);
-
-  await this.prompt({
-    type: 'input',
-    name: 'on',
-    default: on,
-    message: 'on tag or branch: ',
-  }, function(result) {
-    // console.log(result);
-    on = result.on;
-  });
-  await this.prompt({
-    type: 'input',
-    name: 'since',
-    default: since,
-    message: 'since date: ',
-  }, function(result) {
-    // console.log(result);
-    since = result.since;
-  });
-  await this.prompt({
-    type: 'input',
-    name: 'until',
-    default: until,
-    message: 'until date: ',
-  }, function(result) {
-    // console.log(result);
-    until = result.until;
-  });
   const file = fpath('/report-month-csv-all.sh');
-
-  this.log(sh(file, on, since, until));
+  return report(args, cb, file, this);
 });
 
 vorpal.delimiter('release $').show();
 
 //helpers
 function sh(...args) {
-  return execSync(`sh ${args.join(' ')}`).toString().trim();
+  let result;
+  try {
+    result = execSync(`sh ${args.join(' ')}`).toString().trim();
+  } catch (e) {
+    if (e.status !== 0) {
+      //error
+      result = e.stderr;
+    }
+  }
+  return result;
 }
 
-function cmd(str) {
-  return execSync(str).toString().trim();
+function cmd(str, str2) {
+  let result;
+  try {
+    result = execSync(str).toString().trim();
+  } catch (e) {
+    if (e.status !== 0) {
+      //error
+      result = cmd(str2);
+    }
+  }
+  return result;
 }
 
 function fpath(name) {
   return __dirname + name;
+}
+
+async function report(args, cb, file, self) {
+  // const self = this;
+  let on = cmd(`git branch --show-current`);
+  let since = cmd(`date -v1d -v"$(date '+%m')"m '+%F'`);
+  let until = cmd(`date "+%F"`);
+
+  await self.prompt({
+    type: 'input',
+    name: 'on',
+    default: on,
+    message: 'on tag or branch: ',
+  }, function(result) {
+    // console.log(result);
+    on = result.on;
+  });
+  await self.prompt({
+    type: 'input',
+    name: 'since',
+    default: since,
+    message: 'since date: ',
+  }, function(result) {
+    // console.log(result);
+    since = result.since;
+  });
+  await self.prompt({
+    type: 'input',
+    name: 'until',
+    default: until,
+    message: 'until date: ',
+  }, function(result) {
+    // console.log(result);
+    until = result.until;
+  });
+
+  self.log(sh(file, on, since, until));
 }
