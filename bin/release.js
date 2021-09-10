@@ -51,7 +51,7 @@ vorpal.delimiter('release $').show();
 function sh(...args) {
   let result;
   try {
-    result = execSync(`sh ${args.join(' ')}`).toString().trim();
+    result = execSync(`sh "${args.join('" "')}"`).toString().trim();
   } catch (e) {
     if (e.status !== 0) {
       //error
