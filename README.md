@@ -19,7 +19,7 @@ and install [gh-cli](https://cli.github.com/) for dependency.
 - Open terminal, type `release-cmd`
 - Continue typing:
 
-> `github` to create GitHub Release
+> `github` or `gh` to create GitHub Release
 
 > `md` to generate Report All Member Efforts in .md format
 
