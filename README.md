@@ -2,7 +2,7 @@
 commits, `release-cmd` functions:
 
 1. Create [GitHub Release](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
-between 2 branches, commit hash or tag.
+between 2 branches, commit hashes or tags.
 
 2. Report All Member Efforts (.md or .csv file).
 
