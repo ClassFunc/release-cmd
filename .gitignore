@@ -24,4 +24,4 @@ yarn-error.log*
 
 #release files
 release_github.md
-/release_month_report/**
+**/release_month_report
