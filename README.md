@@ -1,8 +1,7 @@
 `release-cmd` is a tool to help us with project management and statistics based on git `Merge pull request...`
 commits, `release-cmd` functions:
 
-1.
-Create [GitHub Release](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
+1.Create [GitHub Release](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 between 2 branches, commit hash or tag.
 
 2. Report All Member Efforts (.md or .csv file).
