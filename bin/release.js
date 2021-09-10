@@ -2,33 +2,78 @@
 const vorpal = require('vorpal')();
 const {execSync} = require('child_process');
 
-vorpal.command('github').action(async function(args, cb) {
+async function github(args, cb, self) {
   // const self = this;
   const file = fpath('/release_github.sh');
   let from = cmd(`git describe --tags --abbrev=0`,
       `git rev-list --max-parents=0 HEAD`);
   let to = cmd(`git branch --show-current`);
 
-  await this.prompt({
+  await self.prompt({
     type: 'input',
     name: 'from',
     default: from,
-    message: 'from commit hash or tag or branch: ',
+    message: '? from commit hash or tag or branch: ',
   }, function(result) {
     // console.log(result);
     from = result.from;
   });
-  await this.prompt({
+  await self.prompt({
     type: 'input',
     name: 'to',
     default: to,
-    message: 'to commit hash or tag or branch: ',
+    message: '? to commit hash or tag or branch: ',
   }, function(result) {
     // console.log(result);
     to = result.to;
   });
-  this.log(sh(file, from, to));
+  self.log(sh(file, from, to));
+}
+
+vorpal.command('github').action(function(args, cb) {
+  return github(args, cb, this);
 });
+
+vorpal.command('gh').action(function(args, cb) {
+  return github(args, cb, this);
+});
+
+async function report(args, cb, file, self) {
+  // const self = this;
+  let on = cmd(`git branch --show-current`);
+  let since = cmd(`date -v1d -v"$(date '+%m')"m '+%F'`);
+  let until = cmd(`date "+%F"`);
+
+  await self.prompt({
+    type: 'input',
+    name: 'on',
+    default: on,
+    message: '? on tag or branch: ',
+  }, function(result) {
+    // console.log(result);
+    on = result.on;
+  });
+  await self.prompt({
+    type: 'input',
+    name: 'since',
+    default: since,
+    message: '? since date: ',
+  }, function(result) {
+    // console.log(result);
+    since = result.since;
+  });
+  await self.prompt({
+    type: 'input',
+    name: 'until',
+    default: until,
+    message: '? until date: ',
+  }, function(result) {
+    // console.log(result);
+    until = result.until;
+  });
+
+  self.log(sh(file, on, since, until));
+}
 
 vorpal.command('md').action(async function(args, cb) {
   const file = fpath('/report-month-md-all.sh');
@@ -76,41 +121,4 @@ function cmd(str, str2) {
 
 function fpath(name) {
   return __dirname + name;
-}
-
-async function report(args, cb, file, self) {
-  // const self = this;
-  let on = cmd(`git branch --show-current`);
-  let since = cmd(`date -v1d -v"$(date '+%m')"m '+%F'`);
-  let until = cmd(`date "+%F"`);
-
-  await self.prompt({
-    type: 'input',
-    name: 'on',
-    default: on,
-    message: 'on tag or branch: ',
-  }, function(result) {
-    // console.log(result);
-    on = result.on;
-  });
-  await self.prompt({
-    type: 'input',
-    name: 'since',
-    default: since,
-    message: 'since date: ',
-  }, function(result) {
-    // console.log(result);
-    since = result.since;
-  });
-  await self.prompt({
-    type: 'input',
-    name: 'until',
-    default: until,
-    message: 'until date: ',
-  }, function(result) {
-    // console.log(result);
-    until = result.until;
-  });
-
-  self.log(sh(file, on, since, until));
 }
