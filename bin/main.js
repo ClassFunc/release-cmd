@@ -1,25 +1,13 @@
 #!/usr/bin/env node
 const vorpal = require('vorpal')();
 const {execSync, exec} = require('child_process');
-const file = __dirname + '/release_github.sh';
-
-// const {Command} = require('commander');
-// const program = new Command();
-// program.option('-f, --from', 'from commit hash or tag or branch').
-//     option('-t, --to', 'to commit hash or tag or branch');
-//
-// program.parse(process.argv);
-//
-// const options = program.opts();
-// console.log(options);
-//
-//
-let from =
-    execSync(`git describe --tags --abbrev=0`).toString().trim();
-let to = execSync(`git branch --show-current`).toString().trim();
 
 vorpal.command('github').action(async function(args, cb) {
   // const self = this;
+  const file = fpath('/release_github.sh');
+  let from = cmd(`git describe --tags --abbrev=0`);
+  let to = cmd(`git branch --show-current`);
+
   await this.prompt({
     type: 'input',
     name: 'from',
@@ -38,12 +26,58 @@ vorpal.command('github').action(async function(args, cb) {
     // console.log(result);
     to = result.to;
   });
-  this.log(runBashWithFromTo(from, to));
+  this.log(sh(file, from, to));
+});
+
+vorpal.command('mmd').action(async function(args, cb) {
+  // const self = this;
+  let on = cmd(`git branch --show-current`);
+  let since = cmd(`date -v1d -v"$(date '+%m')"m '+%F'`);
+  let until = cmd(`date "+%F"`);
+
+  await this.prompt({
+    type: 'input',
+    name: 'on',
+    default: on,
+    message: 'on tag or branch: ',
+  }, function(result) {
+    // console.log(result);
+    on = result.on;
+  });
+  await this.prompt({
+    type: 'input',
+    name: 'since',
+    default: since,
+    message: 'since date: ',
+  }, function(result) {
+    // console.log(result);
+    since = result.since;
+  });
+  await this.prompt({
+    type: 'input',
+    name: 'until',
+    default: until,
+    message: 'until date: ',
+  }, function(result) {
+    // console.log(result);
+    until = result.until;
+  });
+  const mmdFile = fpath('/report-month-md-all.sh');
+
+  this.log(sh(mmdFile, on, since, until));
 });
 
 vorpal.delimiter('release $').show();
 
-//
-function runBashWithFromTo(from, to) {
-  return execSync(`sh ${file} ${from} ${to}`).toString();
+//helpers
+function sh(...args) {
+  return execSync(`sh ${args.join(' ')}`).toString().trim();
+}
+
+function cmd(str) {
+  return execSync(str).toString().trim();
+}
+
+function fpath(name) {
+  return __dirname + name;
 }
