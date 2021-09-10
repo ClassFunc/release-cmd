@@ -6,11 +6,12 @@
 # clear
 echo "Create GitHub draft release"
 
-echo "git fetching..."
-git fetch;
-echo "fetch done."
-
 FROM=$(git describe --tags --abbrev=0)
+# pull git
+echo "git pulling..."
+git pull origin "$FROM"
+echo "...done"
+
 echo "from commit hash or tag or branch ($FROM): \c"
 read -r from
 [ -n "$from" ] && FROM=$from
