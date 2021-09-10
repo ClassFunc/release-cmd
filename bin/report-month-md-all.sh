@@ -24,7 +24,7 @@ if [[ ! -e $FILE ]]; then
   touch "$FILE"
 fi
 
-echo -e "
+echo "
 Pull Request merged from $SINCE to $UNTIL on \`$ON\`
 
 ---

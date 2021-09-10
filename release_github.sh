@@ -24,7 +24,7 @@ read -r to
 
 FILE=release_github.md
 #echo "$COMPARE"
-echo -e "
+echo "
 Pull Request merged between $FROM & $TO
 
 ---

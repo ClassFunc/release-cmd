@@ -36,7 +36,7 @@ if [[ ! -e $FILE ]]; then
   touch "$FILE"
 fi
 
-echo -e "PR,Title,By,Date" > "$FILE"
+echo "PR,Title,By,Date" > "$FILE"
 
 git log --merges\
   "$ON"\

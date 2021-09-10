@@ -38,7 +38,7 @@ create_report (){
     touch "$FILE"
   fi
 
-  echo -e "
+  echo "
 ($1) Pull Request merged from $SINCE to $UNTIL on \`$ON\`
 
 ---
