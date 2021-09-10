@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const vorpal = require('vorpal')();
-const {execSync, exec} = require('child_process');
+const {execSync} = require('child_process');
 
 vorpal.command('github').action(async function(args, cb) {
   // const self = this;
