@@ -66,6 +66,43 @@ vorpal.command('mmd').action(async function(args, cb) {
 
   this.log(sh(mmdFile, on, since, until));
 });
+vorpal.command('mmdu').action(async function(args, cb) {
+  // const self = this;
+  let on = cmd(`git branch --show-current`);
+  let since = cmd(`date -v1d -v"$(date '+%m')"m '+%F'`);
+  let until = cmd(`date "+%F"`);
+
+  await this.prompt({
+    type: 'input',
+    name: 'on',
+    default: on,
+    message: 'on tag or branch: ',
+  }, function(result) {
+    // console.log(result);
+    on = result.on;
+  });
+  await this.prompt({
+    type: 'input',
+    name: 'since',
+    default: since,
+    message: 'since date: ',
+  }, function(result) {
+    // console.log(result);
+    since = result.since;
+  });
+  await this.prompt({
+    type: 'input',
+    name: 'until',
+    default: until,
+    message: 'until date: ',
+  }, function(result) {
+    // console.log(result);
+    until = result.until;
+  });
+  const file = fpath('/report-month-md-by-user.sh');
+
+  this.log(sh(file, on, since, until));
+});
 
 vorpal.command('mcsv').action(async function(args, cb) {
   // const self = this;

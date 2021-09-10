@@ -13,20 +13,9 @@ echo "fetch done."
 
 PROJECT_NAME=$(basename $(git rev-parse --show-toplevel))
 
-SINCE=$(date -v1d -v"$(date '+%m')"m '+%F') #first day of month
-echo "since date ($SINCE): \c"
-read -r since_date
-[ -n "$since_date" ] && SINCE=$since_date
-
-UNTIL=$(date "+%F") #today
-echo "until date ($UNTIL): \c"
-read -r until_date
-[ -n "$until_date" ] && UNTIL=$until_date
-
-ON=$(git branch --show-current)
-echo "on tag or branch ($ON): \c" #default current branch
-read -r on
-[ -n "$on" ] && ON=$on
+ON=$1
+SINCE=$2
+UNTIL=$3
 
 create_report (){
 
