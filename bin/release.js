@@ -29,7 +29,7 @@ vorpal.command('github').action(async function(args, cb) {
   this.log(sh(file, from, to));
 });
 
-vorpal.command('mmd').action(async function(args, cb) {
+vorpal.command('md').action(async function(args, cb) {
   // const self = this;
   let on = cmd(`git branch --show-current`);
   let since = cmd(`date -v1d -v"$(date '+%m')"m '+%F'`);
@@ -66,7 +66,7 @@ vorpal.command('mmd').action(async function(args, cb) {
 
   this.log(sh(mmdFile, on, since, until));
 });
-vorpal.command('mmdu').action(async function(args, cb) {
+vorpal.command('mdu').action(async function(args, cb) {
   // const self = this;
   let on = cmd(`git branch --show-current`);
   let since = cmd(`date -v1d -v"$(date '+%m')"m '+%F'`);
@@ -104,7 +104,7 @@ vorpal.command('mmdu').action(async function(args, cb) {
   this.log(sh(file, on, since, until));
 });
 
-vorpal.command('mcsv').action(async function(args, cb) {
+vorpal.command('csv').action(async function(args, cb) {
   // const self = this;
   let on = cmd(`git branch --show-current`);
   let since = cmd(`date -v1d -v"$(date '+%m')"m '+%F'`);
