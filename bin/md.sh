@@ -46,4 +46,6 @@ echo "$LOG" \
 | sed "s/from.*__end_subject__//g"\
 >> "$FILE"
 
+open "$FILE"
+
 echo "created file: $FILE"

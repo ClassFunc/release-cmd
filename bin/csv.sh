@@ -49,5 +49,5 @@ gsub(";;;", ",")
 print
 }' \
 >> "$FILE"
-
+open "$FILE"
 echo "created file: $FILE"

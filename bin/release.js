@@ -4,7 +4,6 @@ const {execSync} = require('child_process');
 
 async function github(args, cb, self) {
   // const self = this;
-  const file = fpath('/release_github.sh');
   let from = cmd(`git describe --tags --abbrev=0`,
       `git rev-list --max-parents=0 HEAD`);
   let to = cmd(`git branch --show-current`);
@@ -27,6 +26,8 @@ async function github(args, cb, self) {
     // console.log(result);
     to = result.to;
   });
+
+  const file = fpath('/github.sh');
   self.log(sh(file, from, to));
 }
 
