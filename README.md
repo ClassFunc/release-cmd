@@ -1,3 +1,6 @@
+
+[![asciicast](https://asciinema.org/a/whfVGGWZlXwsQVxJePrjDT3dr.svg)](https://asciinema.org/a/whfVGGWZlXwsQVxJePrjDT3dr)
+
 `release-cmd` is a tool to help us with project management and statistics based on git `Merge pull request...`
 commits, `release-cmd` functions:
 
