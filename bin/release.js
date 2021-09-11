@@ -76,17 +76,17 @@ async function report(args, cb, file, self) {
 }
 
 vorpal.command('md').action(async function(args, cb) {
-  const file = fpath('/report-month-md-all.sh');
+  const file = fpath('/md.sh');
   return report(args, cb, file, this);
 });
 
 vorpal.command('mdu').action(async function(args, cb) {
-  const file = fpath('/report-month-md-by-user.sh');
+  const file = fpath('/mdu.sh');
   return report(args, cb, file, this);
 });
 
 vorpal.command('csv').action(async function(args, cb) {
-  const file = fpath('/report-month-csv-all.sh');
+  const file = fpath('/csv.sh');
   return report(args, cb, file, this);
 });
 
