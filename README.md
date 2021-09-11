@@ -30,6 +30,8 @@ and install [gh-cli](https://cli.github.com/) for dependency.
 
 > `csv` to generate Report All Member Efforts in .csv format
 
+> `help` for help
+
 ---
 
 Thanks to the library [Vorpal](https://github.com/dthree/vorpal) for helping us with this project.
