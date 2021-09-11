@@ -31,13 +31,18 @@ async function github(args, cb, self) {
   self.log(sh(file, from, to));
 }
 
-vorpal.command('github').action(function(args, cb) {
-  return github(args, cb, this);
-});
+vorpal.command('github').
+    description(
+        'Create GitHub Release between 2 branches, commit hashes or tags.').
+    action(function(args, cb) {
+      return github(args, cb, this);
+    });
 
-vorpal.command('gh').action(function(args, cb) {
-  return github(args, cb, this);
-});
+vorpal.command('gh').
+    alias('github').
+    action(function(args, cb) {
+      return github(args, cb, this);
+    });
 
 async function report(args, cb, file, self) {
   // const self = this;
@@ -76,20 +81,26 @@ async function report(args, cb, file, self) {
   self.log(sh(file, on, since, until));
 }
 
-vorpal.command('md').action(async function(args, cb) {
-  const file = fpath('/md.sh');
-  return report(args, cb, file, this);
-});
+vorpal.command('md').
+    description('Report All Member Efforts .md file').
+    action(async function(args, cb) {
+      const file = fpath('/md.sh');
+      return report(args, cb, file, this);
+    });
 
-vorpal.command('mdu').action(async function(args, cb) {
-  const file = fpath('/mdu.sh');
-  return report(args, cb, file, this);
-});
+vorpal.command('mdu').
+    description('Report Per Member Efforts .md file').
+    action(async function(args, cb) {
+      const file = fpath('/mdu.sh');
+      return report(args, cb, file, this);
+    });
 
-vorpal.command('csv').action(async function(args, cb) {
-  const file = fpath('/csv.sh');
-  return report(args, cb, file, this);
-});
+vorpal.command('csv').
+    description('Report All Member Efforts .csv file').
+    action(async function(args, cb) {
+      const file = fpath('/csv.sh');
+      return report(args, cb, file, this);
+    });
 
 vorpal.delimiter('release $').show();
 
