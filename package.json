@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/ClassFunc/release/issues"
   },
-  "homepage": "https://github.com/ClassFunc/release#readme",
+  "homepage": "https://github.com/ClassFunc/release",
   "dependencies": {
     "vorpal": "^1.12.0"
   }
