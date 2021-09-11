@@ -5,11 +5,7 @@
 
  # shellcheck disable=SC2046
 # clear
-echo "Report All Member Efforts"
-
-echo "git fetching..."
-git fetch;
-echo "fetch done."
+echo "--- Report All Member Efforts"
 
 PROJECT_NAME=$(basename $(git rev-parse --show-toplevel))
 ON=$1

@@ -29,6 +29,7 @@ async function github(args, cb, self) {
 
   const file = fpath('/github.sh');
   self.log(sh(file, from, to));
+  self.log('DONE ✓︎');
 }
 
 vorpal.command('github').
@@ -78,7 +79,11 @@ async function report(args, cb, file, self) {
     until = result.until;
   });
 
+  self.log(`--- Pulling origin ${on}`);
+  cmd(`git pull origin "${on}"`);
+
   self.log(sh(file, on, since, until));
+  self.log('DONE ✓︎');
 }
 
 vorpal.command('md').

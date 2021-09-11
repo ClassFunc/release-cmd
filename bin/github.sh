@@ -2,10 +2,10 @@
 
 FROM="$1"
 TO="$2"
-echo "Creating GitHub draft release from $FROM to $TO ..."
+echo "--- Creating GitHub draft release from $FROM to $TO ..."
 
 FILE=release_github.md
-#echo "$COMPARE"
+
 echo "
 Pull Request merged between $FROM & $TO
 
@@ -30,6 +30,4 @@ gh release create "$NEW_VERSION"\
   --title "$NEW_VERSION"\
   --draft
 
-#open "$FILE"
-
-echo "created file: $FILE"
+rm $FILE

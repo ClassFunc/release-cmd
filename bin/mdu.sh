@@ -5,11 +5,7 @@
 
  # shellcheck disable=SC2046
 # clear
-echo "Report Per Member Efforts"
-
-echo "git fetching..."
-git fetch;
-echo "fetch done."
+echo "--- Report Per Member Efforts"
 
 PROJECT_NAME=$(basename $(git rev-parse --show-toplevel))
 
@@ -66,4 +62,3 @@ generate_for_all_user(){
 }
 
 generate_for_all_user
-
