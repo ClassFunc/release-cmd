@@ -1,7 +1,7 @@
 {
   "name": "release-cmd",
-  "version": "1.1.9",
-  "description": "",
+  "version": "1.2.0",
+  "description": "project management and statistics based on git `Merge pull request..` commits",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,8 +23,8 @@
     "report",
     "efforts"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "ClassFunc Softwares JSC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ClassFunc/release/issues"
   },

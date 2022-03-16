@@ -12,8 +12,9 @@ between 2 branches, commit hashes or tags.
 3. Report Per Member Efforts.
 
 ## Install:
-
-`npm i -g release-cmd`
+```shell
+npm i -g release-cmd
+```
 
 and install [gh-cli](https://cli.github.com/) for dependency.
 
