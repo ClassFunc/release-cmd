@@ -14,12 +14,26 @@ Pull Request merged between $FROM & $TO
 | PR      | Title   | By | Date     |
 | :---    | :---   | :--- | :--- |" > "$FILE"
 
+SEARCH_PATTERN="Merge pull request"
 git log --merges\
  "$FROM...$TO"\
- --grep 'Merge pull request'\
+ --grep "$SEARCH_PATTERN"\
  --pretty=format:"| %s __end_subject__ | %b | %an | %cs | " \
-| sed "s/Merge pull request//"\
+| sed "s/$SEARCH_PATTERN//"\
 | sed "s/from.*__end_subject__//g"\
+>> "$FILE"
+
+echo "" >> $FILE
+
+SEARCH_PATTERN="Merge branch '$TO' into"
+git log --merges\
+ "$FROM...$TO"\
+ --pretty=format:"| %s | %b | %an | %cs | " \
+ --grep "$SEARCH_PATTERN"\
+| sed "s/$SEARCH_PATTERN//"\
+| sed "s/issue-/#/"\
+| sed "1,$ s/-/ | /"\
+| sed "s/|  |/ | /"\
 >> "$FILE"
 
 
