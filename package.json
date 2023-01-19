@@ -1,6 +1,6 @@
 {
   "name": "release-cmd",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "project management and statistics based on git `Merge pull request..` commits",
   "main": "index.js",
   "scripts": {
